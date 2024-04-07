@@ -1,5 +1,7 @@
 import { memo } from "react";
-import GreeterComponent from "./greeter";
+import dynamic from "next/dynamic";
+
+const GreeterComponent = dynamic(() => import("./greeter"), { ssr: false });
 
 const Greeter = memo(GreeterComponent);
 export default Greeter;

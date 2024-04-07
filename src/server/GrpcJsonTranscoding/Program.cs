@@ -20,12 +20,15 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseGrpcWeb();
+// for all services
+// app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API v1");
 });
-app.MapGrpcService<GreeterService>();
+app.MapGrpcService<GreeterService>().EnableGrpcWeb();
 
 var port = EnvironmentAccessor.GetAsInt("BACKEND_PORT", 8081);
 app.Run($"http://0.0.0.0:{port}");

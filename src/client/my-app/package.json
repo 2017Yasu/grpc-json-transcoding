@@ -4,11 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "postinstall": "rm -rf generated && mkdir -p generated && protoc -I=../../protos ../../protos/api/*.proto ../../protos/google/**/*.proto --js_out=import_style=commonjs,binary:./generated --grpc-web_out=import_style=typescript,mode=grpcweb:./generated",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "google-protobuf": "^3.21.2",
+    "grpc-web": "^1.5.0",
     "next": "14.1.4",
     "react": "^18",
     "react-dom": "^18"
@@ -19,6 +22,8 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
+    "protoc-gen-grpc-web": "^1.4.2",
+    "protoc-gen-js": "^3.21.2",
     "typescript": "^5"
   },
   "volta": {
