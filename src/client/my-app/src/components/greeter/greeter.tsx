@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { GreeterClient } from "../../../generated/api/GreetServiceClientPb";
 import { HelloRequest } from "../../../generated/api/greet_pb";
 
@@ -12,5 +12,19 @@ export default function Greeter() {
     const result = await client.sayHello(request, null)
     alert(result.getMessage());
   }, []);
+
+  useEffect(() => {
+    console.log('connecting websocket...')
+    const connection = new WebSocket(window.location.origin.replace("http", "ws") + "/ws");
+    connection.onopen = () => {
+      console.log('connection open!')
+    }
+    connection.onclose = () => {
+      console.log('connection closed');
+    }
+    return () => {
+      connection.close();
+    }
+  }, [])
   return <button onClick={greet}>Greet</button>;
 }
